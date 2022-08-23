@@ -6,16 +6,13 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private Enemy _enemy;    
     [SerializeField] private float _delay;
-    [SerializeField] private float _duration;
 
     private SpawnPoint [] _spawnPoints;
-    private SpawnPoint _currentSpawnPoint; 
-    private float _timeAfterLastSpawn;    
-    
+    private SpawnPoint _currentSpawnPoint;
+
     private void Start()
     {
-        _spawnPoints = GetComponentsInChildren<SpawnPoint>();
-        _timeAfterLastSpawn = _delay;        
+        _spawnPoints = GetComponentsInChildren<SpawnPoint>();               
         StartCoroutine(SpawnEnemy());
     }
 
@@ -23,21 +20,14 @@ public class Spawner : MonoBehaviour
     {
         while (true)
         {
-            _timeAfterLastSpawn += Time.deltaTime;
             _currentSpawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
-
-            if (_timeAfterLastSpawn > _delay)
-            {
-                InstantiateEnemy(_enemy);
-                _timeAfterLastSpawn = 0;                
-            }
-
-            yield return null;
+            InstantiateEnemy(_enemy, _currentSpawnPoint);
+            yield return new WaitForSeconds(_delay);
         }        
     }
 
-    private void InstantiateEnemy(Enemy enemy)
+    private void InstantiateEnemy(Enemy enemy, SpawnPoint spawnPoint)
     {
-        Instantiate(enemy, _currentSpawnPoint.transform.position, Quaternion.identity);
+        Instantiate(enemy, spawnPoint.transform.position, Quaternion.identity);
     }
 }
