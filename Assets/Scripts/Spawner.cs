@@ -9,8 +9,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _duration;
 
     private SpawnPoint [] _spawnPoints;
-    private float _timeAfterLastSpawn;    
     private SpawnPoint _currentSpawnPoint; 
+    private float _timeAfterLastSpawn;    
     
     private void Start()
     {
